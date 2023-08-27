@@ -6,6 +6,10 @@ using GraphQLTestWebProject.Type;
 
 namespace GraphQLTestWebProject.Mutation
 {
+    /// <summary>
+    /// Here we are setting the query for CREATE, UPDATE and DELETE Operation.
+    /// </summary>
+    /// <seealso cref="GraphQL.Types.ObjectGraphType" />
     public class UserMutation : ObjectGraphType
     {
         public UserMutation(IUserService userService)

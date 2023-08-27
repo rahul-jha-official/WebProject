@@ -1,0 +1,68 @@
+﻿1.  Query for Getting User and All Users
+
+    query {
+      user(id: 1) {
+        userName
+        userEmail
+      }
+      users {
+        userId
+        userName
+        userPhoneNumber
+      }
+    }
+
+2.  Query for Adding a User
+
+    mutation AddUser($user: InputUserType) {
+      addUser(user: $user) {
+        userId
+        userName
+        userEmail
+        userPhoneNumber
+        userDateOfBirth
+      }
+    }
+
+    Query Variable
+
+    {
+      "user": {
+        "userId": 2,
+        "userName": "Rahul",
+        "userEmail": "rj@email.com",
+        "userPhoneNumber": "33234342",
+        "userDateOfBirth": "1997-10-18"
+      }
+    }
+
+3. Query for Updating a User
+
+    mutation UpdateUser($id: Int $name: String) {
+      updateUser(id: $id name: $name) {
+        userId
+        userName
+        userEmail
+        userPhoneNumber
+        userDateOfBirth
+      }
+    }
+
+    Query Variable
+
+    {
+      "user": 2,
+      "name": "RJ"
+    }
+
+4.  Query for Deleting a User
+
+    mutation DeleteUser($id: Int) {
+      deleteUser(id: $id)
+    }
+
+    Query Variable
+
+    {
+      "id": 2
+    }

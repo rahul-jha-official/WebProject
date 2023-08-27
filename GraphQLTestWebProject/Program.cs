@@ -42,3 +42,12 @@ app.UseGraphQLGraphiQL("/graphql");
 app.UseGraphQL<ISchema>();
 
 app.Run();
+
+
+/// <description>
+/// For GraphQL Explorer
+/// GraphQL.Server.Ui.GraphiQL
+/// 
+/// For Getting GraphQL data in JSON Structure
+/// GraphQL.Server.Transports.AspNetCore.SystemTextJson
+/// </description>

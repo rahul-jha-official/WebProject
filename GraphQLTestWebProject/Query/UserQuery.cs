@@ -5,6 +5,11 @@ using GraphQLTestWebProject.Type;
 
 namespace GraphQLTestWebProject.Query
 {
+    /// <summary>
+    /// Here we are defining the queries.
+    /// Also extends ObjectGraphType
+    /// </summary>
+    /// <seealso cref="GraphQL.Types.ObjectGraphType" />
     public class UserQuery : ObjectGraphType
     {
         public UserQuery(IUserService userService)
