@@ -19,7 +19,7 @@ namespace GraphQLTestWebProject.Services
             _graphQLDbContext.Users.Add(user);
             var rowsAffected = _graphQLDbContext.SaveChanges();
 
-            if (rowsAffected == 1)
+            if (rowsAffected == 2)
             {
                 return user;
             }

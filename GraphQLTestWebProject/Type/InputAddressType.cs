@@ -6,12 +6,12 @@ namespace GraphQLTestWebProject.Type
     {
         public InputAddressType()
         {
-            Field<StringGraphType>("HouseNumber");
-            Field<StringGraphType>("AddressLine1");
-            Field<StringGraphType>("AddressLine2");
-            Field<StringGraphType>("City");
-            Field<StringGraphType>("Country");
-            Field<StringGraphType>("PostalCode");
+            Field<StringGraphType>("houseNumber");
+            Field<StringGraphType>("addressLine1");
+            Field<StringGraphType>("addressLine2");
+            Field<StringGraphType>("city");
+            Field<StringGraphType>("country");
+            Field<StringGraphType>("postalCode");
         }
     }
 }
