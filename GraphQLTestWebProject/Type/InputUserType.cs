@@ -10,11 +10,11 @@ namespace GraphQLTestWebProject.Type
     {
         public InputUserType()
         {
-            Field<IntGraphType>("userId");
             Field<StringGraphType>("userName");
             Field<StringGraphType>("userEmail");
-            Field<StringGraphType>("UserPhoneNumber");
-            Field<DateGraphType>("UserDateOfBirth");
+            Field<StringGraphType>("userPhoneNumber");
+            Field<DateGraphType>("userDateOfBirth");
+            Field<InputAddressType>("address");
         }
     }
 }

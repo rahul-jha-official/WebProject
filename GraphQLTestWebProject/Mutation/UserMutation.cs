@@ -15,11 +15,13 @@ namespace GraphQLTestWebProject.Mutation
         public UserMutation(IUserService userService)
         {
             Field<UserType>("addUser",
-                arguments: new QueryArguments(new QueryArgument<InputUserType>
-                {
-                    Name = "user",
-                }),
-                resolve: ctx => userService.AddUser(ctx.GetArgument<User>("user")));
+                arguments: new QueryArguments(
+                    new QueryArgument<InputUserType>
+                    {
+                        Name = "user",
+                    }),
+                resolve: ctx => userService.AddUser(user: ctx.GetArgument<User>("user")));
+
 
             Field<UserType>("updateUser",
                 arguments: new QueryArguments(
@@ -35,16 +37,13 @@ namespace GraphQLTestWebProject.Mutation
                 resolve: ctx => userService.UpdateUserName(ctx.GetArgument<int>("id"), ctx.GetArgument<string>("name")));
 
 
+
             Field<BooleanGraphType>("deleteUser",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType>
                 {
                     Name = "id",
                 }),
-                resolve: ctx =>
-                {
-                    userService.DeleteUser(ctx.GetArgument<int>("id"));
-                    return true;
-                });
+                resolve: ctx => userService.DeleteUser(ctx.GetArgument<int>("id")));
         }
     }
 }

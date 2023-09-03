@@ -14,9 +14,9 @@ namespace GraphQLTestWebProject.Query
     {
         public UserQuery(IUserService userService)
         {
-            Field<ListGraphType<UserType>>("users", 
+            Field<ListGraphType<UserType>>("users",
                                             resolve: ctx => userService.GetUsers());
-            Field<UserType>("user", 
+            Field<UserType>("user",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType>
                 {
                     Name = "id",

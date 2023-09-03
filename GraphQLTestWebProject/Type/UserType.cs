@@ -10,13 +10,14 @@ namespace GraphQLTestWebProject.Type
     /// <seealso cref="GraphQL.Types.ObjectGraphType&lt;GraphQLTestWebProject.Models.User&gt;" />
     public class UserType : ObjectGraphType<User>
     {
-        public UserType() 
+        public UserType()
         {
             Field(u => u.UserId);
             Field(u => u.UserName);
             Field(u => u.UserEmail);
             Field(u => u.UserPhoneNumber);
             Field(u => u.UserDateOfBirth);
+            Field<AddressType>("address", resolve: ctx => ctx.Source.Address);
         }
     }
 }

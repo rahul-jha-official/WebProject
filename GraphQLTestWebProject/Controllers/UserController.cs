@@ -25,21 +25,21 @@ namespace GraphQLTestWebProject.Controllers
         }
 
         [HttpPost("/user")]
-        public User Create([FromBody] User user)
+        public User? Create([FromBody] User user)
         {
             return _userService.AddUser(user);
         }
 
         [HttpPut("/user")]
-        public User Update(int id, string name)
+        public User? Update(int id, string name)
         {
             return _userService.UpdateUserName(id, name);
         }
 
         [HttpDelete("/user")]
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            _userService.DeleteUser(id);
+            return _userService.DeleteUser(id);
         }
     }
 }

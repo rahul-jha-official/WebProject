@@ -14,25 +14,29 @@
 
 2.  Query for Adding a User
 
-    mutation AddUser($user: InputUserType) {
-      addUser(user: $user) {
-        userId
-        userName
-        userEmail
-        userPhoneNumber
-        userDateOfBirth
+    mutation AddUser($User : InputUserType) {
+      addUser (user: $User) {
+        userName,
       }
     }
+
 
     Query Variable
 
     {
-      "user": {
-        "userId": 2,
-        "userName": "Rahul",
-        "userEmail": "rj@email.com",
-        "userPhoneNumber": "33234342",
-        "userDateOfBirth": "1997-10-18"
+      "User": {
+        "userName": "Rishabh Mishra",
+        "userEmail": "rishabh@email.com",
+        "userPhoneNumber": "7978482564",
+        "userDateOfBirth": "1997-01-29",
+        "address": {
+          "houseNumber": "1104",
+          "addressLine1": "ShivaJi Nagar",
+          "addressLine2": "Behind BGM School",
+          "city": "Jhansi",
+          "country": "India",
+          "postalCode": "284001"
+        }
       }
     }
 
@@ -52,7 +56,7 @@
 
     {
       "user": 2,
-      "name": "RJ"
+      "name": "Rishabh"
     }
 
 4.  Query for Deleting a User
@@ -64,5 +68,5 @@
     Query Variable
 
     {
-      "id": 2
+      "id": 1
     }

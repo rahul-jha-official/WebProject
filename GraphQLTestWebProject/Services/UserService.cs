@@ -1,71 +1,62 @@
-﻿using GraphQLTestWebProject.Interfaces;
+﻿using GraphQLTestWebProject.Data;
+using GraphQLTestWebProject.Interfaces;
 using GraphQLTestWebProject.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQLTestWebProject.Services
 {
     public class UserService : IUserService
     {
-        private static List<User> users = new List<User>()
-        {
-            new User()
-            {
-                UserId = 1,
-                UserName = "Test",
-                UserEmail = "test@email.com",
-                UserPhoneNumber = "1234567890",
-                UserDateOfBirth = DateTime.Now,
-                UserAddress = new Address()
-                {
-                    HouseNumber = "221B",
-                    AddressLine1 = "Baker Street",
-                    AddressLine2 = string.Empty,
-                    City = "London",
-                    Country = "United Kingdom",
-                    PostalCode = "12345",
-                }
-            },
-        };
+        private readonly GraphQLDbContext _graphQLDbContext;
 
-        public User AddUser(User user)
+        public UserService(GraphQLDbContext graphQLDbContext)
         {
-            if (user is null || users.Any(u => u.UserId == user.UserId))
-            {
-                throw new Exception("Cannot Add User");
-            }
-            users.Add(user);
-            return user;
+            _graphQLDbContext = graphQLDbContext;
         }
 
-        public void DeleteUser(int id)
+        public User? AddUser(User user)
         {
-            User u = users.FirstOrDefault(u => u.UserId == id);
-            if (u is null)
+            _graphQLDbContext.Users.Add(user);
+            var rowsAffected = _graphQLDbContext.SaveChanges();
+
+            if (rowsAffected == 1)
             {
-                throw new Exception("Cannot Delete User");
+                return user;
             }
-            users.Remove(u);
+            return null;
+        }
+
+        public bool DeleteUser(int id)
+        {
+            var user = _graphQLDbContext.Users.Include(u => u.Address).SingleOrDefault(u => u.UserId == id);
+
+            if (user is null) return false;
+            _graphQLDbContext.Users.Remove(user);
+            var rowsAffected = _graphQLDbContext.SaveChanges();
+            return rowsAffected == 1;
         }
 
         public User? GetUserById(int id)
         {
-            return users.FirstOrDefault(u => u.UserId == id);
+            return _graphQLDbContext.Users.Find(id);
         }
 
         public IEnumerable<User> GetUsers()
         {
-            return users;
+            var allUsers = _graphQLDbContext.Users.Include(user => user.Address).ToList();
+            return allUsers;
         }
 
-        public User UpdateUserName(int id, string name)
+        public User? UpdateUserName(int id, string name)
         {
-            User u = users.FirstOrDefault(u => u.UserId == id);
-            if (u is null)
+            var user = _graphQLDbContext.Users.Find(id);
+            if (user is null)
             {
-                throw new Exception("Cannot Update UserName");
+                return null;
             }
-            u.UserName = name;
-
-            return u;
+            user.UserName = name;
+            _graphQLDbContext.SaveChanges();
+            return user;
         }
     }
 }
