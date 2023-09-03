@@ -49,7 +49,7 @@ namespace GraphQLTestWebProject.Services
 
         public User? UpdateUserName(int id, string name)
         {
-            var user = _graphQLDbContext.Users.Find(id);
+            var user = _graphQLDbContext.Users.Include(u => u.Address).SingleOrDefault(u => u.UserId == id);
             if (user is null)
             {
                 return null;

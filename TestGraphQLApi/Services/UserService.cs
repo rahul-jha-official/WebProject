@@ -61,6 +61,44 @@ namespace TestGraphQLApi.Services
             return null;
         }
 
+        public async Task<GraphUser?> UpdateUserName(string query)
+        {
+            try
+            {
+                var userRequest = new GraphQLRequest()
+                {
+                    Query = query
+                };
+                var graphQLResponse = await _graphQLClient.SendMutationAsync<GraphQLUpdateUserResponse>(userRequest);
+
+                return graphQLResponse.Data.UpdateUser;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            return null;
+        }
+
+        public async Task<bool> DeleteUser(string query)
+        {
+            try
+            {
+                var userRequest = new GraphQLRequest()
+                {
+                    Query = query
+                };
+                var graphQLResponse = await _graphQLClient.SendMutationAsync<GraphQLDeleteUserResponse>(userRequest);
+
+                return graphQLResponse.Data.DeleteUser;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            return false;
+        }
+
         public void Dispose()
         {
             _graphQLClient.Dispose();

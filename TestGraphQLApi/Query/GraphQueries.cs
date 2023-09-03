@@ -43,5 +43,32 @@
               }
             }
         ";
+
+        public static readonly string updateUserQuery = @"
+            mutation {
+              updateUser ({{REPLACE_WITH_DATA}}) {
+                userId
+                userName
+                userEmail
+                userPhoneNumber
+                userDateOfBirth
+                address {
+                  addressId
+                  houseNumber
+                  addressLine1
+                  addressLine2
+                  city
+                  country
+                  postalCode
+                }
+              }
+            }
+        ";
+
+        public static readonly string deleteUserQuery = @"
+            mutation {
+              deleteUser({{REPLACE_WITH_DATA}})
+            }
+        ";
     }
 }
