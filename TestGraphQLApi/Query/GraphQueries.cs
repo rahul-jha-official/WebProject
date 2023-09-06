@@ -2,8 +2,8 @@
 {
     public static class GraphQueries
     {
-        public static readonly string userQuery = @"
-            {
+        public static readonly string usersQuery = @"
+            query {
               users {
                 userId
                 userName
@@ -23,9 +23,9 @@
             }    
         ";
 
-        public static readonly string addUserQuery = @"
-            mutation {
-              addUser (user: {{REPLACE_WITH_DATA}}) {
+        public static readonly string userQuery = @"
+            query GetUser($id: Int) {
+              user (id: $id){
                 userId
                 userName
                 userEmail
@@ -41,12 +41,32 @@
                   postalCode
                 }
               }
-            }
+            }    
         ";
 
+        public static readonly string addUserQuery = @"
+                mutation AddUser($data: InputUserType!) {
+                    addUser (user: $data) {
+                        userId
+                        userName
+                        userEmail
+                        userPhoneNumber
+                        userDateOfBirth
+                        address {
+                          addressId
+                          houseNumber
+                          addressLine1
+                          addressLine2
+                          city
+                          country
+                          postalCode
+                        }
+                    }
+                }";
+
         public static readonly string updateUserQuery = @"
-            mutation {
-              updateUser ({{REPLACE_WITH_DATA}}) {
+            mutation UpdateUserName($id: Int! $name: String!) {
+              updateUser (id: $id, name: $name) {
                 userId
                 userName
                 userEmail
@@ -66,8 +86,8 @@
         ";
 
         public static readonly string deleteUserQuery = @"
-            mutation {
-              deleteUser({{REPLACE_WITH_DATA}})
+            mutation DeleteUser($id: Int){
+              deleteUser(id: $id)
             }
         ";
     }

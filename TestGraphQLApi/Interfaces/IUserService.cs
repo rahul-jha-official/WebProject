@@ -4,9 +4,7 @@ namespace TestGraphQLApi.Interfaces
 {
     public interface IUserService : IDisposable
     {
-        Task<IEnumerable<GraphUser>> GetUsers();
-        Task<GraphUser?> AddUser(string query);
-        Task<GraphUser?> UpdateUserName(string query);
-        Task<bool> DeleteUser(string query);
+        Task<dynamic> QureryOperation(string query, object variable);
+        Task<dynamic> MutationOperation(string query, object variable);
     }
 }

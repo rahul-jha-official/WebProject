@@ -22,17 +22,20 @@ namespace TestGraphQLApi.Services
             _graphQLClient = new GraphQLHttpClient(options, new NewtonsoftJsonSerializer(), httpClient);
         }
 
-        public async Task<IEnumerable<GraphUser>> GetUsers()
+
+
+        public async Task<dynamic> QureryOperation(string query, object variables)
         {
             try
             {
                 var userRequest = new GraphQLRequest()
                 {
-                    Query = GraphQueries.userQuery
+                    Query = query,
+                    Variables = variables
                 };
-                var graphQLResponse = await _graphQLClient.SendQueryAsync<GraphQLUsersResponse>(userRequest);
+                var graphQLResponse = await _graphQLClient.SendQueryAsync<dynamic>(userRequest);
 
-                return graphQLResponse.Data.Users;
+                return graphQLResponse.Data;
             }
             catch (Exception ex)
             {
@@ -42,61 +45,25 @@ namespace TestGraphQLApi.Services
             return new List<GraphUser>();
         }
 
-        public async Task<GraphUser?> AddUser(string query)
+        public async Task<dynamic> MutationOperation(string query, object variables)
         {
             try
             {
                 var userRequest = new GraphQLRequest()
                 {
-                    Query = query
+                    Query = query,
+                    Variables = variables
                 };
-                var graphQLResponse = await _graphQLClient.SendMutationAsync<GraphQLAddUserResponse>(userRequest);
 
-                return graphQLResponse.Data.AddUser;
+                var graphQLResponse = await _graphQLClient.SendMutationAsync<dynamic>(userRequest);
+
+                return graphQLResponse.Data;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
             return null;
-        }
-
-        public async Task<GraphUser?> UpdateUserName(string query)
-        {
-            try
-            {
-                var userRequest = new GraphQLRequest()
-                {
-                    Query = query
-                };
-                var graphQLResponse = await _graphQLClient.SendMutationAsync<GraphQLUpdateUserResponse>(userRequest);
-
-                return graphQLResponse.Data.UpdateUser;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            return null;
-        }
-
-        public async Task<bool> DeleteUser(string query)
-        {
-            try
-            {
-                var userRequest = new GraphQLRequest()
-                {
-                    Query = query
-                };
-                var graphQLResponse = await _graphQLClient.SendMutationAsync<GraphQLDeleteUserResponse>(userRequest);
-
-                return graphQLResponse.Data.DeleteUser;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            return false;
         }
 
         public void Dispose()

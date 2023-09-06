@@ -7,6 +7,7 @@ using TestGraphQLApi.Services;
 IUserService service = new UserService();
 
 await GetUsers(service);
+await GetUser(service);
 await AddUserTest(service);
 await UpdateUserTest(service);
 await DeleteUserTest(service);
@@ -16,56 +17,51 @@ service.Dispose();
 
 static async Task GetUsers(IUserService userService)
 {
-    var u = await userService.GetUsers();
-    Console.WriteLine(JsonConvert.SerializeObject(u, Formatting.Indented));
+    var users = await userService.QureryOperation(GraphQueries.usersQuery,null);
+    Console.WriteLine(JsonConvert.SerializeObject(users, Formatting.Indented));
 }
+
+static async Task GetUser(IUserService userService)
+{
+    var data = GraphVariables.GetDataVariable(id: 3);
+    var user = await userService.QureryOperation(GraphQueries.userQuery, data);
+    Console.WriteLine(JsonConvert.SerializeObject(user, Formatting.Indented));
+}
+
 static async Task AddUserTest(IUserService userService)
 {
-    var userData = @"
-        {
-            userName: ""Test User 4""
-            userEmail: ""test4@gmail.com""
-            userPhoneNumber:""1234567890""
-            userDateOfBirth: ""1997-03-03""
-            address: {
-              houseNumber: ""123""
-              addressLine1: ""Test Line 1""
-              addressLine2: ""Test Line 2""
-              city: ""Test City""
-              country: ""India""
-              postalCode: ""54335""
-            }
-        }";
+    var data = GraphVariables.AddDataVariable(
+                            userName: "Test User",
+                            userEmail: "test@email.com",
+                            "6754685468",
+                            "1997-03-03",
+                            "123",
+                            "XYZ Society",
+                            "ABC",
+                            "Leaf",
+                            "Naruto World",
+                            "233431");
 
-    var finalQuery = GraphQueries.addUserQuery.Replace("{{REPLACE_WITH_DATA}}", userData);
-
-    var user = await userService.AddUser(finalQuery);
+    var user = await userService.MutationOperation(GraphQueries.addUserQuery, data);
 
     Console.WriteLine(JsonConvert.SerializeObject(user, Formatting.Indented));
 }
 
 static async Task UpdateUserTest(IUserService userService)
 {
-    var userData = @"
-        
-            id: 9
-            name: ""Good Name""
-        ";
+    var data = GraphVariables.UpdateNameDataVariable(id: 13, 
+                                                    name: "Naruto Uzamaki");
 
-    var finalQuery = GraphQueries.updateUserQuery.Replace("{{REPLACE_WITH_DATA}}", userData);
-
-    var user = await userService.UpdateUserName(finalQuery);
+    dynamic user = await userService.MutationOperation(GraphQueries.updateUserQuery, data);
 
     Console.WriteLine(JsonConvert.SerializeObject(user, Formatting.Indented));
 }
 
 static async Task DeleteUserTest(IUserService userService)
 {
-    var userData = @"id: 8";
+    var data = GraphVariables.DeleteDataVariable(id: 3);
 
-    var finalQuery = GraphQueries.deleteUserQuery.Replace("{{REPLACE_WITH_DATA}}", userData);
+    dynamic flag = await userService.MutationOperation(GraphQueries.deleteUserQuery, data);
 
-    var user = await userService.DeleteUser(finalQuery);
-
-    Console.WriteLine(JsonConvert.SerializeObject(user, Formatting.Indented));
+    Console.WriteLine(JsonConvert.SerializeObject(flag, Formatting.Indented));
 }
